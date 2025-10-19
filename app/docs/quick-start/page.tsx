@@ -11,47 +11,70 @@ export default function QuickStartPage() {
     en: {
       title: "Quick Start",
       description: "Learn the basics of NextLib in 5 minutes",
-      example: `import com.nextlib.command.CommandManager;
-import com.nextlib.color.ColorUtil;
+      example: `import io.github.chi2l3s.nextlib.api.command.CommandRegistry;
+import io.github.chi2l3s.nextlib.api.command.LongCommandExecutor;
+import io.github.chi2l3s.nextlib.api.command.SubCommand;
+import io.github.chi2l3s.nextlib.api.color.ColorUtil;
+import io.github.chi2l3s.nextlib.api.color.ColorUtilImpl;
+import org.bukkit.command.CommandSender;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MyPlugin extends JavaPlugin {
-    private CommandManager commandManager;
+  @Override
+  public void onEnable() {
+    // Register root command with a subcommand
+    new CommandRegistry(this).registerCommand("hello", new HelloCommand());
+    getLogger().info("MyPlugin enabled!");
+  }
 
-    @Override
-    public void onEnable() {
-        commandManager = new CommandManager(this);
-        
-        // Register a simple command
-        commandManager.register("hello", (sender, args) -> {
-            sender.sendMessage(ColorUtil.colorize("&a&lHello World!"));
-        });
-        
-        getLogger().info("MyPlugin enabled!");
+  static class HelloCommand extends LongCommandExecutor {
+    private final ColorUtil color = new ColorUtilImpl();
+    HelloCommand() {
+      addSubCommand(new SubCommand() {
+        public void onExecute(CommandSender sender, String[] args) {
+          sender.sendMessage(color.formatMessage("&a&lHello World!"));
+        }
+        public java.util.List<String> onTabComplete(CommandSender s, String[] a) {
+          return java.util.List.of();
+        }
+      }, new String[]{"run"}, new Permission("hello.use"));
     }
+  }
 }`,
     },
     ru: {
       title: "Быстрый старт",
-      description: "Изучите основы NextLib за 5 минут",
-      example: `import com.nextlib.command.CommandManager;
-import com.nextlib.color.ColorUtil;
+      description: "Освойте основы NextLib за 5 минут",
+      example: `import io.github.chi2l3s.nextlib.api.command.CommandRegistry;
+import io.github.chi2l3s.nextlib.api.command.LongCommandExecutor;
+import io.github.chi2l3s.nextlib.api.command.SubCommand;
+import io.github.chi2l3s.nextlib.api.color.ColorUtil;
+import io.github.chi2l3s.nextlib.api.color.ColorUtilImpl;
+import org.bukkit.command.CommandSender;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MyPlugin extends JavaPlugin {
-    private CommandManager commandManager;
+  @Override
+  public void onEnable() {
+    new CommandRegistry(this).registerCommand("hello", new HelloCommand());
+    getLogger().info("MyPlugin включён!");
+  }
 
-    @Override
-    public void onEnable() {
-        commandManager = new CommandManager(this);
-        
-        // Регистрируем простую команду
-        commandManager.register("hello", (sender, args) -> {
-            sender.sendMessage(ColorUtil.colorize("&a&lПривет Мир!"));
-        });
-        
-        getLogger().info("MyPlugin включен!");
+  static class HelloCommand extends LongCommandExecutor {
+    private final ColorUtil color = new ColorUtilImpl();
+    HelloCommand() {
+      addSubCommand(new SubCommand() {
+        public void onExecute(CommandSender sender, String[] args) {
+          sender.sendMessage(color.formatMessage("&a&lПривет, мир!"));
+        }
+        public java.util.List<String> onTabComplete(CommandSender s, String[] a) {
+          return java.util.List.of();
+        }
+      }, new String[]{"run"}, new Permission("hello.use"));
     }
+  }
 }`,
     },
   }
@@ -78,3 +101,4 @@ public class MyPlugin extends JavaPlugin {
     </DocPage>
   )
 }
+

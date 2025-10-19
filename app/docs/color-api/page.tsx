@@ -1,5 +1,5 @@
-"use client"
 
+"use client"
 import { DocPage } from "@/components/doc-page"
 import { CodeExample } from "@/components/code-example"
 import { useLanguage } from "@/lib/language-provider"
@@ -10,31 +10,35 @@ export default function ColorApiPage() {
   const content = {
     en: {
       title: "Color API",
-      description: "Format text with colors and styles",
-      example: `import com.nextlib.color.ColorUtil;
+      description: "Format messages using legacy (&) and hex (&#RRGGBB) color codes",
+      example: `import io.github.chi2l3s.nextlib.api.color.ColorUtil;
+import io.github.chi2l3s.nextlib.api.color.ColorUtilImpl;
+
+ColorUtil color = new ColorUtilImpl();
 
 // Legacy color codes
-String message = ColorUtil.colorize("&c&lRed Bold &r&bBlue");
+String legacy = color.formatMessage("&c&lRed Bold &r&bBlue");
 
-// Hex colors
-String hexMessage = ColorUtil.colorizeHex("&#FF0000Red &#00FF00Green");
+// Hex colors (Paper/Spigot 1.16+)
+String hex = color.formatMessage("&#FF0000Red &#00FF00Green &#00aaffCyan");
 
-// RGB colors
-String rgbMessage = ColorUtil.colorizeRGB("<rgb:255,0,0>Red</rgb>");`,
+player.sendMessage(hex);`,
     },
     ru: {
       title: "Color API",
-      description: "Форматируйте текст с цветами и стилями",
-      example: `import com.nextlib.color.ColorUtil;
+      description: "Форматирование сообщений с помощью legacy (&) и hex (&#RRGGBB) цветов",
+      example: `import io.github.chi2l3s.nextlib.api.color.ColorUtil;
+import io.github.chi2l3s.nextlib.api.color.ColorUtilImpl;
 
-// Коды цветов наследия
-String message = ColorUtil.colorize("&c&lКрасный Жирный &r&bСиний");
+ColorUtil color = new ColorUtilImpl();
 
-// Hex цвета
-String hexMessage = ColorUtil.colorizeHex("&#FF0000Красный &#00FF00Зелёный");
+// Коды цветов legacy
+String legacy = color.formatMessage("&c&lКрасный жирный &r&bСиний");
 
-// RGB цвета
-String rgbMessage = ColorUtil.colorizeRGB("<rgb:255,0,0>Красный</rgb>");`,
+// Hex‑цвета (Paper/Spigot 1.16+)
+String hex = color.formatMessage("&#FF0000Красный &#00FF00Зелёный &#00aaffГолубой");
+
+player.sendMessage(hex);`,
     },
   }
 
@@ -52,15 +56,16 @@ String rgbMessage = ColorUtil.colorizeRGB("<rgb:255,0,0>Красный</rgb>");`
           <div className="bg-card border border-border rounded-lg p-6">
             <h3 className="text-lg font-bold mb-2">Legacy Codes</h3>
             <p className="text-muted-foreground text-sm">
-              Support for traditional Minecraft color codes like &c for red, &a for green, etc.
+              Support for traditional Minecraft color codes like &amp;c for red, &amp;a for green, etc.
             </p>
           </div>
           <div className="bg-card border border-border rounded-lg p-6">
             <h3 className="text-lg font-bold mb-2">Hex Colors</h3>
-            <p className="text-muted-foreground text-sm">Use modern hex color codes for more precise color control.</p>
+            <p className="text-muted-foreground text-sm">Use modern hex color codes for precise color control.</p>
           </div>
         </div>
       </section>
     </DocPage>
   )
 }
+

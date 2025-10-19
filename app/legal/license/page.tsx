@@ -1,6 +1,8 @@
 "use client"
 
 import { useLanguage } from "@/lib/language-provider"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 
 export default function LicensePage() {
   const { language } = useLanguage()
@@ -60,19 +62,23 @@ SOFTWARE.`,
   const current = content[language as keyof typeof content] || content.en
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-4">{current.title}</h1>
-          <p className="text-xl text-muted-foreground">{current.description}</p>
-        </div>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 bg-background pt-16">
+        <div className="max-w-4xl mx-auto px-4 py-12 md:py-16">
+          <div className="mb-12">
+            <h1 className="text-4xl font-bold mb-4">{current.title}</h1>
+            <p className="text-xl text-muted-foreground">{current.description}</p>
+          </div>
 
-        <div className="bg-card border border-border rounded-lg p-8">
-          <pre className="text-sm text-muted-foreground overflow-auto whitespace-pre-wrap break-words">
-            {current.license}
-          </pre>
+          <div className="bg-card border border-border rounded-lg p-8">
+            <pre className="text-sm text-muted-foreground overflow-auto whitespace-pre-wrap break-words">
+              {current.license}
+            </pre>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </div>
   )
 }

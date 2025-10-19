@@ -10,59 +10,75 @@ export default function CommandApiPage() {
   const content = {
     en: {
       title: "Command API",
-      description: "Create and manage commands easily",
-      example: `import com.nextlib.command.CommandManager;
+      description: "Register root commands and manage subcommands with permissions and tab-complete.",
+      example: `import io.github.chi2l3s.nextlib.api.command.CommandRegistry;
+import io.github.chi2l3s.nextlib.api.command.LongCommandExecutor;
+import io.github.chi2l3s.nextlib.api.command.SubCommand;
+import org.bukkit.command.CommandSender;
+import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.java.JavaPlugin;
 
-CommandManager manager = new CommandManager(plugin);
+public class MyPlugin extends JavaPlugin {
+  @Override
+  public void onEnable() {
+    new CommandRegistry(this).registerCommand("example", new ExampleCommand());
+  }
 
-// Simple command
-manager.register("greet", (sender, args) -> {
-    sender.sendMessage("Hello!");
-});
-
-// Command with arguments
-manager.register("greet", (sender, args) -> {
-    if (args.length > 0) {
-        sender.sendMessage("Hello " + args[0] + "!");
+  static class ExampleCommand extends LongCommandExecutor {
+    public ExampleCommand() {
+      addSubCommand(new SubCommand() {
+        @Override public void onExecute(CommandSender sender, String[] args) {
+          sender.sendMessage("Hello from subcommand!");
+        }
+        @Override public java.util.List<String> onTabComplete(CommandSender s, String[] a) {
+          return java.util.List.of("one", "two", "three");
+        }
+      }, new String[]{"test", "t"}, new Permission("example.use"));
     }
-});
-
-// Command with permission
-manager.register("admin", (sender, args) -> {
-    if (!sender.hasPermission("admin.command")) {
-        sender.sendMessage("No permission!");
-        return;
-    }
-    sender.sendMessage("Admin command executed!");
-});`,
+  }
+}`,
+      pluginYml: `commands:\n  example:\n    description: Example root command\n    permission: example.use\n    permission-message: "No permission"`,
+      features: [
+        "Subcommands with aliases",
+        "Permission check per subcommand",
+        "Automatic first-arg tab completion",
+      ],
     },
     ru: {
       title: "Command API",
-      description: "Создавайте и управляйте командами легко",
-      example: `import com.nextlib.command.CommandManager;
+      description: "Регистрируйте корневые команды и управляйте подкомандами с правами и автодополнением.",
+      example: `import io.github.chi2l3s.nextlib.api.command.CommandRegistry;
+import io.github.chi2l3s.nextlib.api.command.LongCommandExecutor;
+import io.github.chi2l3s.nextlib.api.command.SubCommand;
+import org.bukkit.command.CommandSender;
+import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.java.JavaPlugin;
 
-CommandManager manager = new CommandManager(plugin);
+public class MyPlugin extends JavaPlugin {
+  @Override
+  public void onEnable() {
+    new CommandRegistry(this).registerCommand("example", new ExampleCommand());
+  }
 
-// Простая команда
-manager.register("greet", (sender, args) -> {
-    sender.sendMessage("Привет!");
-});
-
-// Команда с аргументами
-manager.register("greet", (sender, args) -> {
-    if (args.length > 0) {
-        sender.sendMessage("Привет " + args[0] + "!");
+  static class ExampleCommand extends LongCommandExecutor {
+    public ExampleCommand() {
+      addSubCommand(new SubCommand() {
+        @Override public void onExecute(CommandSender sender, String[] args) {
+          sender.sendMessage("Привет из подкоманды!");
+        }
+        @Override public java.util.List<String> onTabComplete(CommandSender s, String[] a) {
+          return java.util.List.of("one", "two", "three");
+        }
+      }, new String[]{"test", "t"}, new Permission("example.use"));
     }
-});
-
-// Команда с разрешением
-manager.register("admin", (sender, args) -> {
-    if (!sender.hasPermission("admin.command")) {
-        sender.sendMessage("Нет разрешения!");
-        return;
-    }
-    sender.sendMessage("Команда администратора выполнена!");
-});`,
+  }
+}`,
+      pluginYml: `commands:\n  example:\n    description: Пример корневой команды\n    permission: example.use\n    permission-message: "Нет прав"`,
+      features: [
+        "Подкоманды с алиасами",
+        "Проверка прав на уровне подкоманд",
+        "Автодополнение первого аргумента",
+      ],
     },
   }
 
@@ -77,15 +93,20 @@ manager.register("admin", (sender, args) -> {
         </div>
 
         <div className="bg-card border border-border rounded-lg p-6">
+          <h3 className="text-lg font-bold mb-2">plugin.yml</h3>
+          <CodeExample code={current.pluginYml} language="yaml" />
+        </div>
+
+        <div className="bg-card border border-border rounded-lg p-6">
           <h3 className="text-lg font-bold mb-2">Features</h3>
           <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-            <li>Simple registration and execution</li>
-            <li>Built-in permission checking</li>
-            <li>Argument parsing</li>
-            <li>Tab completion support</li>
+            {current.features.map((f: string) => (
+              <li key={f}>{f}</li>
+            ))}
           </ul>
         </div>
       </section>
     </DocPage>
   )
 }
+

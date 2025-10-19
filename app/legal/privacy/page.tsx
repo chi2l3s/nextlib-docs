@@ -1,6 +1,8 @@
 "use client"
 
 import { useLanguage } from "@/lib/language-provider"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 
 export default function PrivacyPage() {
   const { language } = useLanguage()
@@ -11,7 +13,8 @@ export default function PrivacyPage() {
       sections: [
         {
           heading: "Information We Collect",
-          content: "NextLib is an open-source library. We do not collect any personal information from users.",
+          content:
+            "NextLib is an open-source library. We do not collect any personal information from users.",
         },
         {
           heading: "How We Use Information",
@@ -19,7 +22,8 @@ export default function PrivacyPage() {
         },
         {
           heading: "Third-Party Services",
-          content: "NextLib may be hosted on GitHub or other platforms. Please refer to their privacy policies.",
+          content:
+            "NextLib may be hosted on GitHub or other platforms. Please refer to their privacy policies.",
         },
         {
           heading: "Contact Us",
@@ -31,23 +35,23 @@ export default function PrivacyPage() {
       title: "Политика конфиденциальности",
       sections: [
         {
-          heading: "Информация, которую мы собираем",
+          heading: "Какие данные мы собираем",
           content:
-            "NextLib - это библиотека с открытым исходным кодом. Мы не собираем никакую личную информацию от пользователей.",
+            "NextLib — открытая библиотека. Мы не собираем персональные данные пользователей.",
         },
         {
-          heading: "Как мы используем информацию",
-          content: "Поскольку мы не собираем личную информацию, нет данных для использования или обмена.",
+          heading: "Как мы используем данные",
+          content:
+            "Так как персональные данные не собираются, нам нечего использовать или передавать.",
         },
         {
           heading: "Сторонние сервисы",
           content:
-            "NextLib может быть размещена на GitHub или других платформах. Пожалуйста, обратитесь к их политикам конфиденциальности.",
+            "NextLib размещается на GitHub или других платформах. Пожалуйста, ознакомьтесь с их политиками конфиденциальности.",
         },
         {
-          heading: "Свяжитесь с нами",
-          content:
-            "Если у вас есть вопросы об этой политике конфиденциальности, пожалуйста, свяжитесь с нами на GitHub.",
+          heading: "Связаться с нами",
+          content: "Если у вас есть вопросы по этой политике, напишите нам на GitHub.",
         },
       ],
     },
@@ -56,19 +60,24 @@ export default function PrivacyPage() {
   const current = content[language as keyof typeof content] || content.en
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-12">{current.title}</h1>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 bg-background pt-16">
+        <div className="max-w-4xl mx-auto px-4 py-12 md:py-16">
+          <h1 className="text-4xl font-bold mb-12">{current.title}</h1>
 
-        <div className="space-y-8">
-          {current.sections.map((section, index) => (
-            <div key={index}>
-              <h2 className="text-2xl font-bold mb-4">{section.heading}</h2>
-              <p className="text-muted-foreground leading-relaxed">{section.content}</p>
-            </div>
-          ))}
+          <div className="space-y-8">
+            {current.sections.map((section, index) => (
+              <div key={index}>
+                <h2 className="text-2xl font-bold mb-4">{section.heading}</h2>
+                <p className="text-muted-foreground leading-relaxed">{section.content}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </div>
   )
 }
+

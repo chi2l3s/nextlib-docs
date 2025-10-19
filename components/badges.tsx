@@ -32,7 +32,7 @@ export function Badges() {
       </div>
 
       <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-card border border-border rounded-full text-xs font-medium text-muted-foreground">
-        <span className="text-primary font-bold">v1.0</span>
+        <span className="text-primary font-bold">v1.0.0</span>
       </div>
     </div>
   )

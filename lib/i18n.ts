@@ -35,7 +35,8 @@ export const translations = {
     // Hero
     heroTitle: "NextLib",
     heroSubtitle: "Lightweight utility library for Minecraft plugin development",
-    heroDescription: "Simple Command Manager API and Color API with hex & legacy color code support",
+    heroDescription:
+      "Simple Command Manager API and Color API with hex & legacy color code support",
     getStarted: "Get Started",
     viewDocs: "View Docs",
 
@@ -90,7 +91,7 @@ export const translations = {
 
     // Examples items
     basicCommand: "Базовая команда",
-    customItem: "Пользовательский предмет",
+    customItem: "Кастомный предмет",
     guiMenu: "Меню GUI",
 
     // Header
@@ -98,26 +99,27 @@ export const translations = {
 
     // Hero
     heroTitle: "NextLib",
-    heroSubtitle: "Лёгкая библиотека утилит для разработки плагинов Minecraft",
-    heroDescription: "Простой API менеджера команд и Color API с поддержкой hex и legacy кодов цветов",
+    heroSubtitle: "Лёгкая утилитарная библиотека для разработки Minecraft‑плагинов",
+    heroDescription:
+      "Простая Command API и Color API с поддержкой hex и legacy цветов",
     getStarted: "Начать",
-    viewDocs: "Смотреть документацию",
+    viewDocs: "Документация",
 
     // Features
-    featuresTitle: "Мощные возможности",
+    featuresTitle: "Сильные стороны",
     colorApiTitle: "Color API",
-    colorApiDesc: "Поддержка hex и legacy кодов цветов с лёгким преобразованием",
+    colorApiDesc: "Поддержка hex и legacy цветов и удобное форматирование",
     commandApiTitle: "Менеджер команд",
-    commandApiDesc: "Простая и интуитивная регистрация и выполнение команд",
+    commandApiDesc: "Простая интуитивная регистрация и обработка команд",
     itemApiTitle: "Item Builder",
-    itemApiDesc: "Fluent API для создания и кастомизации предметов Minecraft",
+    itemApiDesc: "Fluent‑API для создания и кастомизации предметов",
     configTitle: "Config Manager",
-    configDesc: "Лёгкое управление файлами конфигурации с поддержкой YAML",
+    configDesc: "Удобное управление конфигами с поддержкой YAML",
     guiTitle: "GUI API",
-    guiDesc: "Создавайте интерактивные меню GUI с минимальным кодом",
+    guiDesc: "Создавайте интерактивные GUI меню с минимумом кода",
 
     // Footer
-    footerText: "Создано с любовью для разработчиков Minecraft",
+    footerText: "Сделано с любовью для разработчиков Minecraft",
     footerLinks: "Документация",
 
     // Theme and Language
@@ -125,9 +127,10 @@ export const translations = {
     language: "Язык",
     light: "Светлая",
     dark: "Тёмная",
-    system: "Система",
+    system: "Системная",
   },
 }
 
 export type Language = "en" | "ru"
 export type TranslationKey = keyof typeof translations.en
+

@@ -22,7 +22,9 @@ export function Features() {
 }
 
 dependencies {
-  implementation 'com.github.chi2l3s:next-lib:1.0.0'
+  compileOnly 'com.github.chi2l3s:next-lib:1.0.0'
+  // or shade:
+  // implementation 'com.github.chi2l3s:next-lib:1.0.0'
 }`}
             />
           </div>
@@ -59,8 +61,8 @@ dependencies {
             The Color API provides easy formatting of messages with HEX colors and legacy Minecraft color codes.
           </p>
           <CodeBlock
-            code={`import ru.amixoldev.nextlib.color.ColorUtil;
-import ru.amixoldev.nextlib.color.ColorUtilImpl;
+            code={`import io.github.chi2l3s.nextlib.api.color.ColorUtil;
+import io.github.chi2l3s.nextlib.api.color.ColorUtilImpl;
 
 ColorUtil color = new ColorUtilImpl();
 
@@ -100,19 +102,19 @@ player.sendMessage(color.formatMessage("&aHello &#FF0000World"));`}
             Create powerful command systems with automatic tab completion and permission handling.
           </p>
           <CodeBlock
-            code={`public class ExampleCommand extends LongCommandExecutor {
+            code={`public class ExampleCommand extends io.github.chi2l3s.nextlib.api.command.LongCommandExecutor {
   public ExampleCommand() {
-    addSubCommand(new SubCommand() {
+    addSubCommand(new io.github.chi2l3s.nextlib.api.command.SubCommand() {
       @Override
-      public void onExecute(CommandSender sender, String[] args) {
+      public void onExecute(org.bukkit.command.CommandSender sender, String[] args) {
         sender.sendMessage("Hello from subcommand!");
       }
 
       @Override
-      public List<String> onTabComplete(CommandSender sender, String[] args) {
-        return List.of("option1", "option2", "option3");
+      public java.util.List<String> onTabComplete(org.bukkit.command.CommandSender sender, String[] args) {
+        return java.util.List.of("option1", "option2", "option3");
       }
-    }, new String[]{"test", "t"}, new Permission("example.use"));
+    }, new String[]{"test", "t"}, new org.bukkit.permissions.Permission("example.use"));
   }
 }`}
           />
@@ -138,15 +140,14 @@ player.sendMessage(color.formatMessage("&aHello &#FF0000World"));`}
             Create custom items with names, lore, enchantments, and persistent data containers.
           </p>
           <CodeBlock
-            code={`ItemBuilder builder = new ItemBuilder(Material.DIAMOND_SWORD)
-  .setDisplayName("&a&lEpic Sword")
-  .addLore("&7Damage: &c+10")
-  .addLore("&7Crit Chance: &c25%")
-  .addEnchantment(Enchantment.DAMAGE_ALL, 5)
+            code={`io.github.chi2l3s.nextlib.api.item.ItemBuilder builder = new io.github.chi2l3s.nextlib.api.item.ItemBuilder(org.bukkit.Material.DIAMOND_SWORD)
+  .setName("&a&lEpic Sword")
+  .setLore(java.util.List.of("&7Damage: &c+10", "&7Crit Chance: &c25%"))
+  .addEnchant(org.bukkit.enchantments.Enchantment.DAMAGE_ALL, 5, true)
   .setUnbreakable(true)
-  .addPDC("custom_item", "epic_sword");
+  .setPersistentData(this, "custom_item", "epic_sword");
 
-ItemStack item = builder.build();
+org.bukkit.inventory.ItemStack item = builder.build();
 player.getInventory().addItem(item);`}
           />
           <div className="bg-card border border-border rounded-lg p-4 mt-4">
@@ -172,19 +173,18 @@ player.getInventory().addItem(item);`}
             Manage your plugin configuration files with a simple and intuitive API.
           </p>
           <CodeBlock
-            code={`ConfigManager config = new ConfigManager(plugin, "config.yml");
+            code={`class MyConfig extends io.github.chi2l3s.nextlib.api.config.BaseConfig {
+  public String serverName;
+  public int maxPlayers;
+  MyConfig(org.bukkit.plugin.java.JavaPlugin plugin) { super(plugin, "config.yml"); }
+  protected void loadValues() {
+    serverName = config.getString("server.name", "My Server");
+    maxPlayers = config.getInt("server.max-players", 20);
+  }
+}
 
-// Get values
-String serverName = config.getString("server.name");
-int maxPlayers = config.getInt("server.max-players");
-List<String> motd = config.getStringList("server.motd");
-
-// Set values
-config.set("server.name", "My Server");
-config.save();
-
-// Reload
-config.reload();`}
+MyConfig cfg = new MyConfig(this);
+cfg.reloadConfig();`}
           />
           <div className="bg-card border border-border rounded-lg p-4 mt-4">
             <h4 className="font-semibold text-primary mb-2">Supported Types:</h4>
@@ -208,31 +208,22 @@ config.reload();`}
             Build interactive GUI menus by defining them in YAML files. No code needed!
           </p>
           <CodeBlock
-            code={`# menus/shop.yml
-name: "&a&lShop"
-rows: 3
-
+            code={`# plugins/YourPlugin/menus/shop.yml
+title: "&aShop"
+size: 27
 items:
-  diamond_sword:
-    slot: 11
-    material: DIAMOND_SWORD
-    name: "&b&lEpic Sword"
-    lore:
-      - "&7Price: &c100 coins"
-      - "&7Click to buy"
-    action: "buy_sword"
-  
   close_button:
     slot: 26
     material: BARRIER
-    name: "&c&lClose"
-    action: "close"`}
+    name: "&cClose"
+    on_left_click:
+      - close`}
           />
           <CodeBlock
-            code={`// Load and open menu
-GUIManager guiManager = new GUIManager(plugin);
-Inventory menu = guiManager.loadMenu("shop");
-player.openInventory(menu);`}
+            code={`io.github.chi2l3s.nextlib.api.gui.GuiManager gui = new io.github.chi2l3s.nextlib.api.gui.GuiManager(this);
+java.io.File menus = new java.io.File(getDataFolder(), "menus");
+gui.loadFromFolder(menus);
+gui.openGui(player, "shop");`}
           />
         </div>
       ),

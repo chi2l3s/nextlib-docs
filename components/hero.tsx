@@ -30,15 +30,13 @@ export function Hero() {
 
         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center animate-fade-in-up animation-delay-200 px-2">
           <a
-            href="#installation"
+            href="/docs/installation"
             className="px-6 md:px-8 py-2 md:py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/50 active:scale-95 text-sm md:text-base"
           >
             {t("getStarted")}
           </a>
           <a
-            href="https://github.com/chi2l3s/next-lib"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/docs/quick-start"
             className="px-6 md:px-8 py-2 md:py-3 bg-card border border-border text-foreground rounded-lg font-medium hover:border-primary hover:text-primary transition-all duration-300 hover:scale-105 active:scale-95 text-sm md:text-base"
           >
             {t("viewDocs")}

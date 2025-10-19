@@ -4,13 +4,13 @@ import { DocPage } from "@/components/doc-page"
 import { CodeExample } from "@/components/code-example"
 import { useLanguage } from "@/lib/language-provider"
 
-export default function ConfigManagerPage() {
+export default function ConfigManagerRefPage() {
   const { language } = useLanguage()
 
   const content = {
     en: {
-      title: "Config Manager",
-      description: "Base class for YAML configs with auto-update via ConfigUpdater.",
+      title: "Config Manager (BaseConfig)",
+      description: "Base class for YAML configs with auto-update via ConfigUpdater",
       example: `import io.github.chi2l3s.nextlib.api.config.BaseConfig;
 import io.github.chi2l3s.nextlib.api.config.ConfigUtil;
 import org.bukkit.World;
@@ -41,8 +41,8 @@ getLogger().info("Prefix: " + cfg.prefix);`,
       ],
     },
     ru: {
-      title: "Config Manager",
-      description: "Базовый класс для YAML-конфигов с авто-обновлением через ConfigUpdater.",
+      title: "Config Manager (BaseConfig)",
+      description: "Базовый класс для YAML‑конфигов с автообновлением через ConfigUpdater",
       example: `import io.github.chi2l3s.nextlib.api.config.BaseConfig;
 import io.github.chi2l3s.nextlib.api.config.ConfigUtil;
 import org.bukkit.World;
@@ -68,7 +68,7 @@ MyConfig cfg = new MyConfig(this);
 cfg.reloadConfig();
 getLogger().info("Prefix: " + cfg.prefix);`,
       notes: [
-        "reloadConfig() создаёт файл из ресурсов, если отсутствует",
+        "reloadConfig() создаёт файл из ресурсов, если его нет",
         "ConfigUpdater сохраняет комментарии и добавляет новые ключи",
       ],
     },
@@ -78,21 +78,15 @@ getLogger().info("Prefix: " + cfg.prefix);`,
 
   return (
     <DocPage title={current.title} description={current.description}>
-      <section className="space-y-8">
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Usage</h2>
-          <CodeExample code={current.example} language="java" />
-        </div>
-
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h3 className="text-lg font-bold mb-2">Notes</h3>
-          <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-            {current.notes.map((n: string) => (
-              <li key={n}>{n}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <CodeExample code={current.example} language="java" title="Usage" />
+      <div className="bg-card border border-border rounded-lg p-6">
+        <h3 className="text-lg font-bold mb-2">Notes</h3>
+        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+          {current.notes.map((n: string) => (
+            <li key={n}>{n}</li>
+          ))}
+        </ul>
+      </div>
     </DocPage>
   )
 }

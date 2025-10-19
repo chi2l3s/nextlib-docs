@@ -11,18 +11,13 @@ export function PageContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex min-h-screen w-full overflow-x-hidden">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <div className="flex-1 w-full md:ml-64 overflow-x-hidden">
-        <Header sidebarOpen={sidebarOpen} onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-
-        <main className="pt-16 w-full overflow-x-hidden">
-          <Hero />
-          <Features />
-          <Footer />
-        </main>
-      </div>
+    <div className="flex min-h-screen w-full overflow-x-hidden flex-col">
+      <Header />
+      <main className="pt-16 w-full overflow-x-hidden">
+        <Hero />
+        <Features />
+      </main>
+      <Footer />
     </div>
   )
 }

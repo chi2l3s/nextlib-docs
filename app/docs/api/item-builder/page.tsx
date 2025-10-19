@@ -4,13 +4,13 @@ import { DocPage } from "@/components/doc-page"
 import { CodeExample } from "@/components/code-example"
 import { useLanguage } from "@/lib/language-provider"
 
-export default function ItemApiPage() {
+export default function ItemBuilderRefPage() {
   const { language } = useLanguage()
 
   const content = {
     en: {
-      title: "Item API",
-      description: "Fluent builder for names, lore, enchants, flags and PDC.",
+      title: "ItemBuilder",
+      description: "Fluent builder for ItemStack with name, lore, enchants, flags and PDC",
       example: `import io.github.chi2l3s.nextlib.api.item.ItemBuilder;
 import io.github.chi2l3s.nextlib.api.item.ItemUtil;
 import org.bukkit.Material;
@@ -28,7 +28,7 @@ ItemStack item = new ItemBuilder(Material.DIAMOND_SWORD)
 boolean hasTag = ItemUtil.hasPersistentData(item, this, "custom_id");`,
       methods: [
         "setName(String)",
-        "setLore(List<String> | String...)",
+        "setLore(List<String> | String...)s",
         "addEnchant(Enchantment, int, boolean)",
         "addEnchants(Map<Enchantment,Integer>)",
         "setUnbreakable(boolean)",
@@ -36,11 +36,13 @@ boolean hasTag = ItemUtil.hasPersistentData(item, this, "custom_id");`,
         "setSkullOwner(String)",
         "setPersistentData(JavaPlugin, String, String|int)",
         "build() -> ItemStack",
+        "ItemUtil.hasPersistentData(ItemStack, JavaPlugin, String)",
+        "ItemUtil.getStringData / getIntData",
       ],
     },
     ru: {
-      title: "Item API",
-      description: "Удобный билдер для имени, описания, чар, флагов и PDC.",
+      title: "ItemBuilder",
+      description: "Fluent‑билдер для ItemStack: имя, лор, зачарования, флаги и PDC",
       example: `import io.github.chi2l3s.nextlib.api.item.ItemBuilder;
 import io.github.chi2l3s.nextlib.api.item.ItemUtil;
 import org.bukkit.Material;
@@ -66,6 +68,8 @@ boolean hasTag = ItemUtil.hasPersistentData(item, this, "custom_id");`,
         "setSkullOwner(String)",
         "setPersistentData(JavaPlugin, String, String|int)",
         "build() -> ItemStack",
+        "ItemUtil.hasPersistentData(ItemStack, JavaPlugin, String)",
+        "ItemUtil.getStringData / getIntData",
       ],
     },
   }
@@ -74,21 +78,15 @@ boolean hasTag = ItemUtil.hasPersistentData(item, this, "custom_id");`,
 
   return (
     <DocPage title={current.title} description={current.description}>
-      <section className="space-y-8">
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Creating Items</h2>
-          <CodeExample code={current.example} language="java" />
-        </div>
-
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h3 className="text-lg font-bold mb-2">Methods</h3>
-          <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-            {current.methods.map((m: string) => (
-              <li key={m}>{m}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <CodeExample code={current.example} language="java" title="Usage" />
+      <div className="bg-card border border-border rounded-lg p-6">
+        <h3 className="text-lg font-bold mb-2">Methods</h3>
+        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+          {current.methods.map((m: string) => (
+            <li key={m}>{m}</li>
+          ))}
+        </ul>
+      </div>
     </DocPage>
   )
 }
