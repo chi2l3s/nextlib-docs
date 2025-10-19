@@ -9,44 +9,38 @@ const geistSans = Geist({ subsets: ["latin"] })
 const geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "NextLib - Lightweight Minecraft Plugin Library | Easy Development",
+  title: { default: "NextLib – Lightweight Minecraft Plugin Library", template: "%s | NextLib" },
   description:
-    "NextLib is a lightweight utility library for Minecraft plugin development with Color API, Command Manager, Item Builder, Config Manager, and GUI API. Build plugins the easy way.",
-  keywords: ["Minecraft", "Plugin", "Library", "Java", "Development", "API", "Spigot", "Paper"],
+    "NextLib is a lightweight library for Minecraft plugin development: Color API, Command Manager, Item Builder, Config Manager, GUI API.",
+  keywords: ["Minecraft", "Plugin", "Library", "Java", "Spigot", "Paper", "Bukkit"],
   authors: [{ name: "chi2l3s" }],
   creator: "chi2l3s",
   publisher: "NextLib",
-  robots: "index, follow",
+  robots: { index: true, follow: true },
+  metadataBase: new URL("https://mc-nextlib.vercel.app"),
+  icons: {
+    icon: "/favicon.ico",
+  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://nextlib.dev",
+    url: "https://mc-nextlib.vercel.app",
     siteName: "NextLib",
-    title: "NextLib - Lightweight Minecraft Plugin Library",
+    title: "NextLib – Lightweight Minecraft Plugin Library",
     description: "Build Minecraft plugins the easy way with NextLib",
-    images: [
-      {
-        url: "https://nextlib.dev/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "NextLib - Minecraft Plugin Library",
-      },
-    ],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "NextLib - Minecraft Plugin Library" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "NextLib - Lightweight Minecraft Plugin Library",
+    title: "NextLib – Lightweight Minecraft Plugin Library",
     description: "Build Minecraft plugins the easy way",
     creator: "@chi2l3s",
   },
-  alternates: {
-    canonical: "https://nextlib.dev",
-    languages: {
-      en: "https://nextlib.dev/en",
-      ru: "https://nextlib.dev/ru",
-    },
-  },
-    generator: 'v0.app'
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#7c3aed" },
+    { media: "(prefers-color-scheme: dark)", color: "#a78bfa" },
+  ],
 }
 
 export default function RootLayout({
@@ -75,8 +69,8 @@ export default function RootLayout({
                 "@type": "Person",
                 name: "chi2l3s",
               },
-              url: "https://nextlib.dev",
-              image: "https://nextlib.dev/og-image.png",
+              url: "https://mc-nextlib.vercel.app",
+              image: "https://mc-nextlib.vercel.app/og-image.png",
             }),
           }}
         />

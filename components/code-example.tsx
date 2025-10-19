@@ -14,8 +14,9 @@ function highlightYaml(code: string) {
   const out: string[] = []
   for (const raw of lines) {
     let line = raw
+    // comments
     if (/^\s*#/.test(line)) {
-      out.push(`<span class="token comment">${line}</span>`)
+      out.push(`<span class="token comment">${line}</span>`) // full line
       continue
     }
     const m = line.match(/^(\s*)(-\s+)?([^:#\n]+?)(\s*:\s*)(.*)?$/)
@@ -35,7 +36,7 @@ function highlightYaml(code: string) {
           valueHtml = `<span class="token string">${rest}</span>`
         }
       }
-      line = `${indent}${dash ? `<span class=\"token punct\">${dash}</span>` : ""}` +
+      line = `${indent || ""}${dash ? `<span class=\"token punct\">${dash}</span>` : ""}` +
         `<span class="token yaml-key">${key}</span>` +
         `<span class="token punct">${colon}</span>` +
         (rest ? valueHtml : "")
@@ -57,43 +58,9 @@ function highlightYaml(code: string) {
   return out.join("\n")
 }
 
-function escapeHtml(s: string) {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-}
-
-function highlightJavaOrGradle(code: string) {
-  let s = escapeHtml(code)
-  // Order: strings -> numbers -> keywords -> comments (last)
-  s = s.replace(/(&quot;|\")[^"\\]*(?:\\.[^"\\]*)*\1/g, (m) => `${m}`)
-  s = s.replace(/\b-?\d+(?:\.\d+)?\b/g, (m) => `<span class="token number">${m}</span>`)
-  const kw = [
-    'public','protected','private','class','interface','enum','extends','implements','static','final','void','new','return','if','else','switch','case','break','default','for','while','do','try','catch','finally','import','package','null','true','false'
-  ]
-  const kwRe = new RegExp(`\\b(${kw.join('|')})\\b`, 'g')
-  s = s.replace(kwRe, (m) => `<span class="token keyword">${m}</span>`)
-  s = s.replace(/\/\*[\s\S]*?\*\//g, (m) => `<span class="token comment">${m}</span>`)
-  s = s.replace(/(^|\s)(\/\/.*)$/gm, (_a, g1, g2) => `${g1}<span class="token comment">${g2}</span>`)
-  return s
-}
-
-function highlightXml(code: string) {
-  let s = escapeHtml(code)
-  s = s.replace(/(&lt;\/)([A-Za-z0-9:_-]+)(&gt;)/g, (_m, a, name, b) => `${a}<span class="token tag">${name}</span>${b}`)
-  s = s.replace(/(&lt;)([A-Za-z0-9:_-]+)([^&]*?)(&gt;)/g, (_m, lt, name, attrs, gt) => {
-    attrs = attrs.replace(/([A-Za-z0-9:_-]+)(=)(&quot;[^&]*?&quot;)/g, (_m2: any, an: any, eq: any, av: any) => `<span class="token attr">${an}</span>${eq}<span class="token string">${av}</span>`)
-    return `${lt}<span class="token tag">${name}</span>${attrs}${gt}`
-  })
-  return s
-}
-
 export function CodeExample({ code, language = "java", title }: CodeExampleProps) {
   const [copied, setCopied] = useState(false)
-  const highlighted = useMemo(() => {
-    if (language === "yaml") return highlightYaml(code)
-    if (language === "java" || language === "gradle") return highlightJavaOrGradle(code)
-    if (language === "xml") return highlightXml(code)
-    return null
-  }, [code, language])
+  const highlighted = useMemo(() => (language === "yaml" ? highlightYaml(code) : null), [code, language])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code)
@@ -121,4 +88,3 @@ export function CodeExample({ code, language = "java", title }: CodeExampleProps
     </div>
   )
 }
-
